@@ -37,8 +37,6 @@ class Block {
   }
 }
 
-Block.calculateBlockHash
-
 const genesisBlock: Block = new Block(0, "202020202020", "", "Hello", 123456);
 
 
@@ -70,37 +68,53 @@ const createNewBlock = (data:string): Block => {
         newTimeStamp
     );
 
+    addBlock(newBlock);
+
     return newBlock;
 }
 
 const getHashforBlock = (aBlock: Block): string =>
+
   Block.calculateBlockHash(
     aBlock.index,
     aBlock.previousHash,
     aBlock.timestamp,
     aBlock.data
+
   );
 
 
 const isBlockValid = (candidateBlock: Block, previousBlock: Block): boolean => {
   if (!Block.validateStructure(candidateBlock)) {
     return false;
+
   } else if (previousBlock.index + 1 !== candidateBlock.index) {
     return false;
+
   } else if (previousBlock.hash !== candidateBlock.previousHash) {
     return false;
+
   } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
     return false;
+
   } else {
     return true;
   }
 };
 
 const addBlock = (candidateBlock: Block): void => {
+
   if (isBlockValid(candidateBlock, getLatestBlock())) {
     blockChain.push(candidateBlock);
   }
+
 };
+
+createNewBlock('second block');
+createNewBlock("third block");
+createNewBlock("fourth block");
+
+console.log(blockChain);
 
 
 export {};
